@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: sgi_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: sgi
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: sgi
+    ports:
+      - "5432:5432"
+    expose:
+      - "5432"
+    volumes:
+      - ./pg_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d sgi -U sgi" ]
+      interval: 1s
+      timeout: 1s
+      retries: 5
+
+  test-postgres:
+    image: postgres:15
+    container_name: test-sgi_postgres
+    restart: always
+    environment:
+      POSTGRES_USER: test-sgi
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: test-sgi
+    ports:
+      - "5434:5432"
+    expose:
+      - "5434"
+    volumes:
+      - ./test-pg_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+      dockerfile: ./DockerFile-py_311_3
+      target: release
+    container_name: sgi_app
+    environment:
+      - DATABASE_URL
+    volumes:
+      - ./src:/app/src
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "postgres"
+    healthcheck:
+      test:  curl --fail http://localhost:8000/health || exit 1
+
+volumes:
+  app_data:
+  test-app_data:

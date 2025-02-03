@@ -1,0 +1,7 @@
+*.ini
+.venv
+.env
+pg_data
+*.pyc
+.idea
+test-pg_data

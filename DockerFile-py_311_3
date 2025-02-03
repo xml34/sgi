@@ -1,0 +1,27 @@
+FROM python:3.11.3 AS release
+WORKDIR /app
+
+RUN apt-get update \
+  && apt-get install jq -y
+
+# ENV PATH="/root/.local/bin:${PATH}"
+# ENV PYTHONPATH="${PYTHONPATH}:/app/"
+# ENV PYTHONUNBUFFERED 1
+
+RUN pip install --no-cache-dir poetry
+
+COPY . .
+
+#COPY poetry.lock /app/
+#COPY pyproject.toml /app/
+#COPY README.md /app/
+#COPY src /app/src
+#COPY secrets /app/secrets
+#RUN  pwd
+
+RUN poetry install
+
+EXPOSE 8000
+
+# RUN ls -R /app/src
+CMD ["poetry", "run","fastapi", "run", "src/main.py"]
