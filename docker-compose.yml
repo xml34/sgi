@@ -34,7 +34,7 @@ services:
     expose:
       - "5434"
     volumes:
-      - ./test-pg_data:/var/lib/postgresql/data
+      - ./pg_data-test:/var/lib/postgresql/data
 
   app:
     build:

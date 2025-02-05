@@ -1,6 +1,6 @@
 # SGI Api
 
-Hi! This is SGI an API that supports crud for Products, on the near future 
+Hi! This is SGI, an API that supports crud for Products, on the near future 
 we hope to support more services !
 
 # Documentation

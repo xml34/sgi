@@ -7,7 +7,7 @@ class Settings(BaseSettings):
     test: bool = False
     project_name: str = "My SGI Project"
     oauth_token_secret: str = "my_dev_secret"
-    model_config = SettingsConfigDict(env_file="./secrets/pg.ini")
+    model_config = SettingsConfigDict(env_file="./secrets/variables.ini")
 
 
 settings = Settings()
