@@ -4,4 +4,4 @@
 pg_data
 *.pyc
 .idea
-test-pg_data
+pg_data-test
