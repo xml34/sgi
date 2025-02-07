@@ -36,6 +36,21 @@ target_metadata = Base.metadata
 # ... etc.
 
 
+def get_url():
+    environment = os.getenv("ENVIRONMENT")
+
+    match environment:
+
+        case "DEV":
+            return "postgresql://sgi:password@postgres:5432/sgi"
+        case "TEST":
+            return "postgresql://test-sgi:password@test-postgres:5432/test-sgi"
+        case "LOCAL":
+            return "postgresql://sgi:password@localhost:5432/sgi"
+        case default:
+            return config.get_main_option("sqlalchemy.url")
+
+
 def run_migrations_offline() -> None:
     """Run migrations in 'offline' mode.
 
@@ -67,8 +82,11 @@ def run_migrations_online() -> None:
     and associate a connection with the context.
 
     """
+    configuration = config.get_section(config.config_ini_section, {})
+    print(get_url())
+    configuration["sqlalchemy.url"] = get_url()
     connectable = engine_from_config(
-        config.get_section(config.config_ini_section, {}),
+        configuration,
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
     )
