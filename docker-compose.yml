@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
@@ -48,8 +46,6 @@ services:
       - ./src:/app/src
     ports:
       - "8000:8000"
-    depends_on:
-      - "postgres"
     healthcheck:
       test:  curl --fail http://localhost:8000/health || exit 1
 
