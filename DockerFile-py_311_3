@@ -25,3 +25,4 @@ EXPOSE 8000
 
 # RUN ls -R /app/src
 CMD ["poetry", "run","fastapi", "run", "src/main.py"]
+# poetry run fastapi run src/main.py

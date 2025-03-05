@@ -1,22 +1,23 @@
 from pydantic import BaseModel, Field
 from typing import Optional
+from fastapi import Body
 
 
 class CreateProductSchema(BaseModel):
-    name: str
-    description: Optional[str] = Field(default="No description")
-    category: str
-    price: float
-    sku: Optional[str] = Field(default="No description")
+    name: str = Field(Body(default="No description"))
+    description: Optional[str] = Field(Body(default="No description"))
+    category: str = Field(Body(default="No description"))
+    price: float = Field(Body(default="No description"))
+    sku: Optional[str] = Field(Body(default="No description"))
 
 
 class ProductSchemaUpdate(CreateProductSchema):
-    id: int
-    name: Optional[str] = None
-    description: Optional[str] = None
-    category: Optional[str] = None
-    price: Optional[float] = None
-    sku: Optional[str] = None
+    id: int = Field(Body(default="No description"))
+    name: Optional[str] = Field(Body(default="No description"))
+    description: Optional[str] = Field(Body(default="No description"))
+    category: Optional[str] = Field(Body(default="No description"))
+    price: Optional[float] = Field(Body(default="No description"))
+    sku: Optional[str] = Field(Body(default="No description"))
 
     def updation_squema(self):
         result = {}

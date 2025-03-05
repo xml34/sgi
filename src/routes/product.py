@@ -13,7 +13,7 @@ def init_product_router():
     @router.get(
         path="/get/{product_id}",
         description="Returns a single product",
-        name="Get Product",
+        name="Get Product"
     )
     async def get_product(
         product_id: int,
@@ -22,10 +22,23 @@ def init_product_router():
         product = await service.get(product_id)
         return product
 
+    @router.get(
+        path="/get",
+        description="Returns a single product",
+        name="Get Product"
+    )
+    async def get_product(
+            name: str,
+            service: ProductService = Depends()
+    ):
+        product = await service.get_by_name(name)
+        return product
+
     @router.post(
         path="/create",
         description="Create Product",
-        name="Create Product"
+        name="Create Product",
+        status_code=201
     )
     async def create_product(
             request: CreateProductSchema = Depends(),
@@ -46,5 +59,16 @@ def init_product_router():
     ):
         response: str = await service.update(request)
         return {"message": "%s. %s" % (request.name, response)}
+
+    @router.delete(
+        path="/delete/{product_id}",
+        description="Deletes a single product",
+        name="Get Product"
+    )
+    async def delete_product(
+        product_id: int,
+        service: ProductService = Depends()
+    ):
+        return await service.delete(product_id)
 
     return router

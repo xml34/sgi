@@ -31,8 +31,6 @@ services:
       - "5434:5432"
     expose:
       - "5434"
-    volumes:
-      - ./pg_data-test:/var/lib/postgresql/data
 
   app:
     build:
@@ -43,6 +41,7 @@ services:
     environment:
       - DATABASE_URL
       - ENVIRONMENT
+      - ENVIRONMENT=${ENVIRONMENT}
     volumes:
       - ./src:/app/src
     ports:
