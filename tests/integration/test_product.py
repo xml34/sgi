@@ -34,6 +34,7 @@ class ProductTest(TestCase):
             url="/product/create",
             json=_json
         )
+
         time.sleep(0.2)
         self.assertEqual(response.status_code, 201)
         product = self.get_product("pepsi")
@@ -41,9 +42,13 @@ class ProductTest(TestCase):
         del _json_response["id"]
         self.assertDictEqual(_json_response, _json)
 
-    def test_update_product(self):
+    def test_02_update_product(self):
         pass
-        response = self.client.put("/product/update")
+        # self.get_product()
+        # response = self.client.put(
+        #     "/product/update",
+        #     json={"name": "Updated Item", "price": 15.0}
+        # )
         # get_response = self.get_product()
 
     def test_delete_product(self):

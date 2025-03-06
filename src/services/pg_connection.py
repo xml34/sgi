@@ -23,8 +23,9 @@ class DatabaseSessionManager:
         if engine_kwargs is None:
             engine_kwargs = {}
 
+        # pool_size=10, max_overflow=2 <- didn't worked
         self._engine = create_async_engine(
-            host, pool_size=10, max_overflow=2, **engine_kwargs
+            host, **engine_kwargs
         )
         self._session_maker = async_sessionmaker(
             autocommit=False, bind=self._engine, expire_on_commit=False
@@ -50,35 +51,19 @@ class DatabaseSessionManager:
                 await connection.rollback()
                 raise
 
-    # @asynccontextmanager  # xml34 uncomment this
-    # async def session(self) -> AsyncIterator[AsyncSession]:
-    #     if self._session_maker is None:
-    #         raise Exception("DatabaseSessionManager is not initialized")
-    #
-    #     session = self._session_maker()
-    #     try:
-    #         yield session
-    #     except Exception:
-    #         await session.rollback()
-    #         raise
-    #     finally:
-    #         await session.close()
-
     @asynccontextmanager
     async def session(self) -> AsyncIterator[AsyncSession]:
         if self._session_maker is None:
             raise Exception("DatabaseSessionManager is not initialized")
 
-        # session = self._session_maker()
-
-        async with self._session_maker() as session:
-            try:
-                yield session
-            except Exception:
-                await session.rollback()
-                raise
-            finally:
-                await session.close()
+        session = self._session_maker()
+        try:
+            yield session
+        except Exception:
+            await session.rollback()
+            raise
+        finally:
+            await session.close()
 
     def is_engine_none(self) -> bool:
         if self._engine is None:
@@ -89,7 +74,7 @@ class DatabaseSessionManager:
 session_manager = DatabaseSessionManager(
     host=settings.database_url,
     engine_kwargs={
-        "future": True, "echo": settings.echo_sql  # ,"poolclass": NullPool
+        "future": True, "echo": settings.echo_sql, "poolclass": NullPool
     }
 )
 
