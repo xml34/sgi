@@ -1,9 +1,9 @@
 from fastapi import APIRouter
-from src.config import settings
+# from src.config import settings
 
 router = APIRouter(prefix="", tags=["Health"])
 
 
 @router.get("/health")
 async def read_example():
-    return {"message": "Everything is OK   ദ്ദി(>ᴗ•) %s" % settings.database_url}
+    return {"message": "Everything is OK   ദ്ദി(>ᴗ•)"}

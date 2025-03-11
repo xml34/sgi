@@ -6,6 +6,7 @@ from sqlalchemy.ext.asyncio import (
 from sqlalchemy.ext.asyncio import AsyncEngine, AsyncSession, AsyncConnection
 
 from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy.pool import NullPool
 
 
 class Base(DeclarativeBase):
@@ -22,7 +23,10 @@ class DatabaseSessionManager:
         if engine_kwargs is None:
             engine_kwargs = {}
 
-        self._engine = create_async_engine(host, **engine_kwargs)
+        # pool_size=10, max_overflow=2 <- didn't worked
+        self._engine = create_async_engine(
+            host, **engine_kwargs
+        )
         self._session_maker = async_sessionmaker(
             autocommit=False, bind=self._engine, expire_on_commit=False
         )
@@ -69,15 +73,12 @@ class DatabaseSessionManager:
 
 session_manager = DatabaseSessionManager(
     host=settings.database_url,
-    engine_kwargs={"echo": settings.echo_sql}
+    engine_kwargs={
+        "future": True, "echo": settings.echo_sql, "poolclass": NullPool
+    }
 )
 
 
 async def get_db_session():
     async with session_manager.session() as session:
         yield session
-
-
-
-
-

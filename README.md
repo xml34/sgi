@@ -11,10 +11,49 @@ so... run it and go to the swagger http://localhost:8000/docs#
 
 # How To Run Locally
 
-Fist, make sure you have Docker installed on you Pc, Then
-1) `docker-compose build`  
-2) `Docker-compose up`  
-3) `docker compose exec app alembic upgrade head`  
+1) you need to place the env ENVIRONMENT=LOCAL  
+2) Run your local database at localhost:5432
+3) Replace the following files 
+   * **sgi/secrets/pg.ini**: represents postgres connection. i.e: DATABASE_URL="postgresql+asyncpg://sgi:password@localhost:5432/sgi"
+   * **sgi/alembic.ini**: represents the connection to de DB but for migrations
+     * **Note**: the sqlalchemy.url will be ignored, alembic will be automatically 
+     connected to localhost:5432 if you want to change this behavior see **How To Run Remotely**
+4) run `alembic -c /secrets/alembic.ini upgrade head` : this runs migrations
+5) run `poetry run fastapi run src/main.py`  : this runs the project
+
+
+# How To Run With Docker
+1) you need to place the env ENVIRONMENT=DEV
+2) Replace the following files
+   * **sgi/secrets/pg.ini**: represents postgres connection. i.e: DATABASE_URL="postgresql+asyncpg://sgi:password@postgres:5432/sgi"
+   * **sgi/alembic.ini**: represents the connection to de DB but for migrations
+     * **Note**: the sqlalchemy.url will be ignored, alembic will be automatically 
+     connected to 'postgres' container if you want to change this behavior see **How To Run Remotely**
+3) Make sure you have Docker installed on you Pc, Then execute the following commands
+   * `make build`  
+   * `make run`  
+
 And yes, that's it. 😉👍🏻
 
+
+# How To Run Tests
+1) you need to place the env ENVIRONMENT=TEST
+2) Replace the following files
+   * **sgi/secrets/pg.ini**: represents postgres connection
+   * **sgi/alembic.ini**: represents the connection to de DB but for migrations
+     * **Note**: the sqlalchemy.url will be ignored, alembic will be automatically 
+     connected to 'test-postgres' container if you want to change this behavior see **How To Run Remotely**
+3) Make sure you have Docker installed on you Pc, Then execute the following commands
+   * `make build`  
+   * `make test`  
+
+# How To Run Remotely
+1) you need to place the env ENVIRONMENT=ELSE
+2) Replace the following files
+   * **sgi/secrets/pg.ini**: represents postgres connection
+   * **sgi/alembic.ini**: represents the connection to de DB but for migrations
+   and set **sqlalchemy.url** variable
+3) Make sure you have Docker installed on you machine, Then execute the following commands
+   * `make build`  
+   * `make run`  
 

@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:15
@@ -33,8 +31,6 @@ services:
       - "5434:5432"
     expose:
       - "5434"
-    volumes:
-      - ./test-pg_data:/var/lib/postgresql/data
 
   app:
     build:
@@ -44,12 +40,12 @@ services:
     container_name: sgi_app
     environment:
       - DATABASE_URL
+      - ENVIRONMENT
+      - ENVIRONMENT=${ENVIRONMENT}
     volumes:
       - ./src:/app/src
     ports:
       - "8000:8000"
-    depends_on:
-      - "postgres"
     healthcheck:
       test:  curl --fail http://localhost:8000/health || exit 1
 
