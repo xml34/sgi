@@ -11,13 +11,12 @@ class CreateProductSchema(BaseModel):
     sku: Optional[str] = Field(Body(default="No description"))
 
 
-class ProductSchemaUpdate(CreateProductSchema):
-    id: int = Field(Body(default="No description"))
-    name: Optional[str] = Field(Body(default="No description"))
-    description: Optional[str] = Field(Body(default="No description"))
-    category: Optional[str] = Field(Body(default="No description"))
-    price: Optional[float] = Field(Body(default="No description"))
-    sku: Optional[str] = Field(Body(default="No description"))
+class ProductSchemaUpdate(BaseModel):
+    name: Optional[str] = Field(Body(None, example="Cocacola"))
+    description: Optional[str] = Field(Body(None, example="veneno"))
+    category: Optional[str] = Field(Body(None, example="bebida"))
+    price: Optional[float] = Field(Body(None, example=3))
+    sku: Optional[str] = Field(Body(None, example="IDK"))
 
     def updation_squema(self):
         result = {}

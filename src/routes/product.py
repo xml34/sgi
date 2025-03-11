@@ -54,10 +54,13 @@ def init_product_router():
         name="Update Product"
     )
     async def update_product(
+            product_id,
             request: ProductSchemaUpdate = Depends(),
             service: ProductService = Depends()
     ):
-        response: str = await service.update(request)
+        response: str = await service.update(
+            product_id=product_id, product=request
+        )
         return {"message": "%s. %s" % (request.name, response)}
 
     @router.delete(

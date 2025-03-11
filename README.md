@@ -18,7 +18,7 @@ so... run it and go to the swagger http://localhost:8000/docs#
    * **sgi/alembic.ini**: represents the connection to de DB but for migrations
      * **Note**: the sqlalchemy.url will be ignored, alembic will be automatically 
      connected to localhost:5432 if you want to change this behavior see **How To Run Remotely**
-4) run `alembic upgrade head` : this runs migrations
+4) run `alembic -c /secrets/alembic.ini upgrade head` : this runs migrations
 5) run `poetry run fastapi run src/main.py`  : this runs the project
 
 

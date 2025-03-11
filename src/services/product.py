@@ -54,13 +54,13 @@ class ProductService:
             async with session.begin():
                 session.add(product)
 
-    async def update(self, product: ProductSchemaUpdate) -> str:
+    async def update(self, product_id: int,  product: ProductSchemaUpdate) -> str:
         if product.updation_squema():
             async with self.db as session:
                 async with session.begin():
                     await session.execute(
                         update(Product).where(
-                            Product.id == product.id).values(
+                            Product.id == product_id).values(
                             **product.updation_squema())
                     )
             return "Product successfully updated"
