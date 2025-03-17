@@ -30,8 +30,12 @@ so... run it and go to the swagger http://localhost:8000/docs#
      * **Note**: the sqlalchemy.url will be ignored, alembic will be automatically 
      connected to 'postgres' container if you want to change this behavior see **How To Run Remotely**
 3) Make sure you have Docker installed on you Pc, Then execute the following commands
-   * `make build`  
-   * `make run`  
+   * ```
+     make build
+     ```  
+   * ``` 
+     make run
+     ```
 
 And yes, that's it. 😉👍🏻
 
@@ -44,8 +48,12 @@ And yes, that's it. 😉👍🏻
      * **Note**: the sqlalchemy.url will be ignored, alembic will be automatically 
      connected to 'test-postgres' container if you want to change this behavior see **How To Run Remotely**
 3) Make sure you have Docker installed on you Pc, Then execute the following commands
-   * `make build`  
-   * `make test`  
+   * ```
+     make build
+     ```  
+   * ``` 
+     make run
+     ```
 
 # How To Run Remotely
 1) you need to place the env ENVIRONMENT=ELSE
@@ -54,6 +62,18 @@ And yes, that's it. 😉👍🏻
    * **sgi/alembic.ini**: represents the connection to de DB but for migrations
    and set **sqlalchemy.url** variable
 3) Make sure you have Docker installed on you machine, Then execute the following commands
-   * `make build`  
-   * `make run`  
+   * ```
+     make build
+     ```  
+   * ``` 
+     make run
+     ```
 
+
+# CI/CD
+based on this course https://github.com/vdespa/install-jenkins-docker  
+
+
+```
+docker build -t my-jenkins .
+```
