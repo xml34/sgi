@@ -1,0 +1,38 @@
+image: docker:latest-alpine
+services:
+  - docker:dind
+
+variables:
+  DOCKER_DRIVER: overlay2
+  ENVIRONMENT: TEST
+
+stages:
+    - build
+    - test
+    - deploy
+
+before_script:
+  - apk add --no-cache make
+  - echo "project_name=My SGI Project [[Local]]" > secrets/config.ini
+  - echo "DATABASE_URL=postgresql+asyncpg://test-sgi:password@test-postgres:5432/test-sgi" >> secrets/config.ini
+
+build-image:
+  stage: build
+  script:
+    - make build
+    - docker save -o sgi-app.tar sgi-app
+    - docker save -o postgres.tar postgres
+  artifacts:
+    paths:
+      - sgi-app.tar
+      - postgres.tar
+    expire_in: 2m # 2 minutes
+
+run-test:
+  stage: test
+  dependencies:
+    - build-image
+  script:
+    - docker load -i sgi-app.tar
+    - docker load -i postgres.tar
+    - make test
