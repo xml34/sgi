@@ -9,7 +9,7 @@ pipeline {
         stage('Retrieve Secrets') {
             steps {
                 script {
-                    def secretsDir = "${env.WORKSPACE}/${SECRETS_DIR}"
+                    def secretsDir = "/${SECRETS_DIR}"
                     // sh "mkdir -p ${secretsDir}"
 
                     withCredentials([
