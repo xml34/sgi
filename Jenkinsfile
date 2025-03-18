@@ -9,15 +9,15 @@ pipeline {
         stage('Retrieve Secrets') {
             steps {
                 script {
-                    def secretsDir = "$env.WORKSPACE/$SECRETS_DIR"
+                    def secretsDir = "${env.WORKSPACE}/${SECRETS_DIR}"
                     // sh "mkdir -p ${secretsDir}"
 
                     withCredentials([
                         file(credentialsId: 'postgres-ini', variable: 'POSTGRES_INI'),
                         file(credentialsId: 'alembic-ini', variable: 'ALEMBIC_INI')
                     ]) {
-                        sh "cp $POSTGRES_INI $secretsDir/alembic.ini"
-                        sh "cp $ALEMBIC_INI $secretsDir/pg.ini"
+                        sh "cp ${POSTGRES_INI} ${secretsDir}/alembic.ini"
+                        sh "cp ${ALEMBIC_INI} ${secretsDir}/pg.ini"
                     }
                 }
                 sh '''
@@ -34,7 +34,6 @@ pipeline {
                 }
             }
             steps {
-                test -
                 echo 'Building...     -   -   -   -   -   -   -   -   -   -   - '
                 sh 'make build'
             }
