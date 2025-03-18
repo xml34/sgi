@@ -14,8 +14,8 @@ pipeline {
             steps {
                 script {
                     // Ensure the secrets directory exists
-                    sh 'rm $SECRETS_DIR/pg.ini'
-                    sh 'rm $SECRETS_DIR/alembic.ini'
+                    sh 'rm -f $SECRETS_DIR/pg.ini'
+                    sh 'rm -f $SECRETS_DIR/alembic.ini'
                     sh 'mkdir -p $SECRETS_DIR'
                     sh 'apk update && apk add make'
                 }
