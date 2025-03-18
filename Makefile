@@ -8,22 +8,32 @@ ALEMBIC_CONFIG="/app/secrets/alembic.ini"
 build_no_cache:  # build the docker image.
 	docker-compose build --no-cache
 
+
 .PHONY: build
 build:  # build the docker image.
 	docker-compose build
 
+
 .PHONY: run
 run:
-	make down
+	make down_api
 	docker-compose up -d postgres
 	until docker-compose exec -T postgres pg_isready -d sgi -U sgi; do sleep 1; done
 	DATABASE_URL=${DB_DEV} docker-compose up -d app
 	docker-compose exec app alembic -c ${ALEMBIC_CONFIG} upgrade head
 
 
+.PHONY: down_api
+down_api:
+	docker-compose down postgres || true
+	docker-compose down test-postgres || true
+	docker-compose down app || true
+
+
 .PHONY: down
 down:
 	docker-compose down
+
 
 .PHONY: jenkins
 jenkins:
@@ -32,8 +42,7 @@ jenkins:
 
 .PHONY: test
 test:
-	# shut down everything before tests
-	make down
+	make down_api
 	# raises test DB
 	docker-compose up -d test-postgres
 	until docker-compose exec -T test-postgres pg_isready -d sgi -U sgi; do sleep 1; done
@@ -42,4 +51,4 @@ test:
 	# run migrations
 	docker-compose exec app alembic -c ${ALEMBIC_CONFIG} upgrade head
 	# run tests
-	docker-compose exec app poetry run pytest
+	docker-compose exec app poetry run pytest --junitxml=tests/integration/reports/report.xml
