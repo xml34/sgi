@@ -22,6 +22,14 @@ so... run it and go to the swagger http://localhost:8000/docs#
 5) run `poetry run fastapi run src/main.py`  : this runs the project
 
 
+# How To Run Jenkins
+
+   * ```
+     make jenkins
+     ```    
+   * go to http://localhost:8080
+
+
 # How To Run With Docker
 1) you need to place the env ENVIRONMENT=DEV
 2) Replace the following files

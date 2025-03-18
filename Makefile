@@ -25,6 +25,11 @@ run:
 down:
 	docker-compose down
 
+.PHONY: jenkins
+jenkins:
+	docker-compose up -d my-jenkins jenkins-docker
+
+
 .PHONY: test
 test:
 	# shut down everything before tests
