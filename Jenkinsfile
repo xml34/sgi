@@ -20,6 +20,8 @@ pipeline {
                         sh "pwd"
                         sh "touch ${secretsDir}/alembic.ini"
                         sh "touch ${secretsDir}/pg.ini"
+                        sh "ls -la"
+                        sh "ls -la secrets"
                         sh "cp /${POSTGRES_INI} ${secretsDir}/alembic.ini"
                         sh "cp /${ALEMBIC_INI} ${secretsDir}/pg.ini"
                     }
