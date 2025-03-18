@@ -17,7 +17,7 @@ pipeline {
                     sh 'rm -f $SECRETS_DIR/pg.ini'
                     sh 'rm -f $SECRETS_DIR/alembic.ini'
                     sh 'mkdir -p $SECRETS_DIR'
-                    sh 'apk update && apk add make'
+                    sh 'sudo apk update && apk add make'
                 }
                 // Copy the secret files
                 withCredentials([
