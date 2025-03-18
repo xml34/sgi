@@ -16,8 +16,9 @@ pipeline {
                         file(credentialsId: 'postgres-ini', variable: 'POSTGRES_INI'),
                         file(credentialsId: 'alembic-ini', variable: 'ALEMBIC_INI')
                     ]) {
-                        sh "cp ${POSTGRES_INI} ${secretsDir}/alembic.ini"
-                        sh "cp ${ALEMBIC_INI} ${secretsDir}/pg.ini"
+                        sh "ls -la"
+                        sh "cp /${POSTGRES_INI} ${secretsDir}/alembic.ini"
+                        sh "cp /${ALEMBIC_INI} ${secretsDir}/pg.ini"
                     }
                 }
                 sh '''
