@@ -40,6 +40,7 @@ pipeline {
             }*/
             steps {
                 echo 'Building...     -   -   -   -   -   -   -   -   -   -   - '
+                sh 'docker --version'
                 sh 'make build'
             }
         }
