@@ -18,8 +18,8 @@ pipeline {
                     // Ensure the secrets directory exists
                     sh 'rm -f $SECRETS_DIR/pg.ini'
                     sh 'rm -f $SECRETS_DIR/alembic.ini'
-                    sh 'mkdir -p $SECRETS_DIR'
-                    sh 'apk update && apk add make'
+                    //sh 'mkdir -p $SECRETS_DIR'
+                    //sh 'apk update && apk add make'
                 }
                 // Copy the secret files
                 withCredentials([
@@ -42,7 +42,8 @@ pipeline {
             steps {
                 echo 'Building...     -   -   -   -   -   -   -   -   -   -   - '
                 sh 'docker --version'
-                sh 'make build'
+                // sh 'make build'
+                sh 'docker-compose build'
             }
         }
 
