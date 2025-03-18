@@ -17,7 +17,7 @@ pipeline {
                         file(credentialsId: 'alembic-ini', variable: 'ALEMBIC_INI')
                     ]) {
                         sh "ls -la"
-                        she "pwd"
+                        sh "pwd"
                         sh "touch ${secretsDir}/alembic.ini"
                         sh "touch ${secretsDir}/pg.ini"
                         sh "cp /${POSTGRES_INI} ${secretsDir}/alembic.ini"
