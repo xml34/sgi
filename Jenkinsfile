@@ -22,8 +22,8 @@ pipeline {
                         sh "touch ${secretsDir}/pg.ini"
                         sh "ls -la"
                         sh "ls -la secrets"
-                        sh "cp /${POSTGRES_INI} ${secretsDir}/alembic.ini"
-                        sh "cp /${ALEMBIC_INI} ${secretsDir}/pg.ini"
+                        sh "cp /$POSTGRES_INI ${secretsDir}/"
+                        sh "cp /$ALEMBIC_INI ${secretsDir}/"
                     }
                 }
                 sh '''
