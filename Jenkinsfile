@@ -1,5 +1,9 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'docker:dind'
+        }
+    }
 
     environment {
         SECRETS_DIR = "${WORKSPACE}/secrets"
@@ -13,7 +17,7 @@ pipeline {
                     sh 'rm $SECRETS_DIR/pg.ini'
                     sh 'rm $SECRETS_DIR/alembic.ini'
                     sh 'mkdir -p $SECRETS_DIR'
-                    sh 'apt-get -y install make'
+                    sh 'apk update && apk add make'
                 }
                 // Copy the secret files
                 withCredentials([
@@ -27,12 +31,12 @@ pipeline {
             }
         }
         stage('Build') {
-            agent {
+            /*agent {
                 docker {
                     image 'docker:dind'
                     reuseNode true
                 }
-            }
+            }*/
             steps {
                 echo 'Building...     -   -   -   -   -   -   -   -   -   -   - '
                 sh 'make build'
