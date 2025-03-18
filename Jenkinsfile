@@ -2,8 +2,7 @@ pipeline {
     agent {
         docker {
             image 'docker:dind'
-            args '-u root'
-            args '-v /var/run/docker.sock:/var/run/docker.sock'
+            args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
         }
     }
 
