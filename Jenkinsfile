@@ -2,34 +2,24 @@ pipeline {
     agent any
 
     environment {
-        SECRETS_DIR = "secrets"
+        SECRETS_DIR = "${WORKSPACE}/secrets"
     }
 
     stages {
-        stage('Retrieve Secrets') {
+        stage('Prepare Secrets') {
             steps {
                 script {
-                    def secretsDir = "${SECRETS_DIR}"
-                    // sh "mkdir -p ${secretsDir}"
-
-                    withCredentials([
-                        file(credentialsId: 'postgres-ini', variable: 'POSTGRES_INI'),
-                        file(credentialsId: 'alembic-ini', variable: 'ALEMBIC_INI')
-                    ]) {
-                        sh "ls -la"
-                        sh "pwd"
-                        sh "touch ${secretsDir}/alembic.ini"
-                        sh "touch ${secretsDir}/pg.ini"
-                        sh "ls -la"
-                        sh "ls -la secrets"
-                        sh "cp /$POSTGRES_INI ${secretsDir}/"
-                        sh "cp /$ALEMBIC_INI ${secretsDir}/"
-                    }
+                    // Ensure the secrets directory exists
+                    sh 'mkdir -p $SECRETS_DIR'
                 }
-                sh '''
-                    test -f ${SECRETS_DIR}/alembic.ini
-                    test -f ${SECRETS_DIR}/pg.ini
-                '''
+                // Copy the secret files
+                withCredentials([
+                    file(credentialsId: 'postgres-ini', variable: 'POSTGRES_INI'),
+                    file(credentialsId: 'alembic-ini', variable: 'ALEMBIC_INI')
+                ]) {
+                    sh 'cp $POSTGRES_INI $SECRETS_DIR/pg.ini'
+                    sh 'cp $ALEMBIC_INI $SECRETS_DIR/alembic.ini'
+                }
             }
         }
         stage('Build') {
