@@ -60,4 +60,9 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            junit 'tests/integration/reports/report.xml'
+        }
+    }
 }
