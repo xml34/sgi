@@ -53,4 +53,4 @@ test:
 	# run migrations
 	docker-compose exec app alembic -c ${ALEMBIC_CONFIG} upgrade head
 	# run tests
-	docker-compose exec app poetry run pytest --junitxml=${TEST_REPORTS_DIR}/report.xml --html=${TEST_REPORTS_DIR}/report.html --title="My SGI Test Report" --self-contained-html
+	docker-compose exec app poetry run pytest --junitxml=${TEST_REPORTS_DIR}/report.xml --html=${TEST_REPORTS_DIR}/report.html
