@@ -3,6 +3,8 @@ DB_TEST="postgresql+asyncpg://test-sgi:password@test-postgres:5432/test-sgi"
 DB_DEV="postgresql+asyncpg://sgi:password@postgres:5432/sgi"
 ALEMBIC_CONFIG="/app/secrets/alembic.ini"
 
+TEST_REPORTS_DIR=tests/integration/reports
+
 
 .PHONY: build_no_cache
 build_no_cache:  # build the docker image.
@@ -51,4 +53,4 @@ test:
 	# run migrations
 	docker-compose exec app alembic -c ${ALEMBIC_CONFIG} upgrade head
 	# run tests
-	docker-compose exec app poetry run pytest --junitxml=tests/integration/reports/report.xml
+	docker-compose exec app poetry run pytest --junitxml=${TEST_REPORTS_DIR}/report.xml --html=${TEST_REPORTS_DIR}/report.html --title="My SGI Test Report" --self-contained-html
