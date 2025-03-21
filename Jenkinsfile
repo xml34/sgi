@@ -38,37 +38,35 @@ pipeline {
                 sh 'docker-compose build'
             }
         }
-        stage('Run Test') {
-            parallel {
-                stage('Lint Test') {
-                    steps {
-                        echo 'Lint Testing..   -   -   -   -   -   -   -   -   -   -   -'
-                        sh 'make linter'
-                    }
+
+
+        stage('Lint Test') {
+            steps {
+                echo 'Lint Testing..   -   -   -   -   -   -   -   -   -   -   -'
+                sh 'make linter'
+            }
+        }
+        stage('Unit Test') {
+            steps {
+                echo 'Unit Testing..   -   -   -   -   -   -   -   -   -   -   -'
+                sh 'make unit_test'
+            }
+            post {
+                always {
+                    junit 'tests/unit/reports/report.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'tests/unit/reports', reportFiles: 'report.html', reportName: 'SGI HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                 }
-                stage('Unit Test') {
-                    steps {
-                        echo 'Unit Testing..   -   -   -   -   -   -   -   -   -   -   -'
-                        sh 'make unit_test'
-                    }
-                    post {
-                        always {
-                            junit 'tests/unit/reports/report.xml'
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'tests/unit/reports', reportFiles: 'report.html', reportName: 'SGI HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-                        }
-                    }
-                }
-                stage('Integration Test') {
-                    steps {
-                        echo 'Integration Testing..   -   -   -   -   -   -   -   -   - '
-                        sh 'make integration_test'
-                    }
-                    post {
-                        always {
-                            junit 'tests/integration/reports/report.xml'
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'tests/integration/reports', reportFiles: 'report.html', reportName: 'SGI HTML Report', reportTitles: '', useWrapperFileDirectly: true])
-                        }
-                    }
+            }
+        }
+        stage('Integration Test') {
+            steps {
+                echo 'Integration Testing..   -   -   -   -   -   -   -   -   - '
+                sh 'make integration_test'
+            }
+            post {
+                always {
+                    junit 'tests/integration/reports/report.xml'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'tests/integration/reports', reportFiles: 'report.html', reportName: 'SGI HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                 }
             }
         }
