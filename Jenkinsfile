@@ -53,7 +53,7 @@ pipeline {
                     }
                     post {
                         always {
-                            junit 'tests/integration/reports/report.xml'
+                            junit 'tests/unit/reports/report.xml'
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'tests/unit/reports', reportFiles: 'report.html', reportName: 'SGI HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                         }
                     }
