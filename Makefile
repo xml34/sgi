@@ -54,7 +54,7 @@ test:
 	# run migrations
 	docker-compose exec app alembic -c ${ALEMBIC_CONFIG} upgrade head
 	# run tests
-	docker-compose exec app poetry run pytest #--junitxml=${TEST_REPORTS_DIR}/report.xml --html=${TEST_REPORTS_DIR}/report.html
+	docker-compose exec app poetry run pytest --junitxml=${TEST_REPORTS_DIR}/report.xml --html=${TEST_REPORTS_DIR}/report.html
 	make down_api
 
 .PHONY: linter
