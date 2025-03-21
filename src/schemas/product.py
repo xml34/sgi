@@ -12,11 +12,11 @@ class CreateProductSchema(BaseModel):
 
 
 class ProductSchemaUpdate(BaseModel):
-    name: Optional[str] = Field(Body(None, example="Cocacola"))
-    description: Optional[str] = Field(Body(None, example="veneno"))
-    category: Optional[str] = Field(Body(None, example="bebida"))
-    price: Optional[float] = Field(Body(None, example=3))
-    sku: Optional[str] = Field(Body(None, example="IDK"))
+    name: Optional[str] = Field(Body(None, examples=["Cocacola"]))
+    description: Optional[str] = Field(Body(None, examples=["veneno"]))
+    category: Optional[str] = Field(Body(None, examples=["bebida"]))
+    price: Optional[float] = Field(Body(None, examples=[3]))
+    sku: Optional[str] = Field(Body(None, examples=["IDK"]))
 
     def updation_squema(self):
         result = {}

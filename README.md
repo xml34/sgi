@@ -22,6 +22,14 @@ so... run it and go to the swagger http://localhost:8000/docs#
 5) run `poetry run fastapi run src/main.py`  : this runs the project
 
 
+# How To Run Jenkins
+
+   * ```
+     make jenkins
+     ```    
+   * go to http://localhost:8080
+
+
 # How To Run With Docker
 1) you need to place the env ENVIRONMENT=DEV
 2) Replace the following files
@@ -41,7 +49,10 @@ And yes, that's it. 😉👍🏻
 
 
 # How To Run Tests
-1) you need to place the env ENVIRONMENT=TEST
+1) you need to place the env 
+    ```
+    export ENVIRONMENT=TEST
+    ```
 2) Replace the following files
    * **sgi/secrets/pg.ini**: represents postgres connection
    * **sgi/alembic.ini**: represents the connection to de DB but for migrations
@@ -52,7 +63,7 @@ And yes, that's it. 😉👍🏻
      make build
      ```  
    * ``` 
-     make run
+     make test
      ```
 
 # How To Run Remotely

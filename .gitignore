@@ -5,3 +5,5 @@ pg_data
 *.pyc
 .idea
 pg_data-test
+tests/integration/reports/*
+tests/unit/reports/*

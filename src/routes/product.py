@@ -19,15 +19,15 @@ def init_product_router():
         product_id: int,
         service: ProductService = Depends()
     ):
-        product = await service.get(product_id)
+        product: Product = await service.get(product_id)
         return product
 
     @router.get(
         path="/get",
         description="Returns a single product",
-        name="Get Product"
+        name="Get Product By Name"
     )
-    async def get_product(
+    async def get_product_by_name(
             name: str,
             service: ProductService = Depends()
     ):

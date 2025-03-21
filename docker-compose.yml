@@ -82,6 +82,7 @@ services:
       - ENVIRONMENT=${ENVIRONMENT}
     volumes:
       - ./src:/app/src
+      - ./tests/integration/reports:/app/tests/integration/reports
     ports:
       - "8000:8000"
     healthcheck:
@@ -93,6 +94,5 @@ networks:
 
 volumes:
   app_data:
-  test-app_data:
   jenkins-docker-certs:
   jenkins-data:
