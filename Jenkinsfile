@@ -1,7 +1,7 @@
 pipeline {
     agent {
         docker {
-            image 'docker:24-dind'
+            image 'docker:latest'
             args '-v /var/run/docker.sock:/var/run/docker.sock -u root'
         }
     }
@@ -19,8 +19,8 @@ pipeline {
                     sh 'rm -f $SECRETS_DIR/pg.ini'
                     sh 'rm -f $SECRETS_DIR/alembic.ini'
                     //sh 'mkdir -p $SECRETS_DIR'
-                    // sh 'apk update && apk add make'
-                    sh 'apk add make'
+                    sh "sed -i 's/dl-cdn.alpinelinux.org/mirrors.dotsrc.org/' /etc/apk/repositories"
+                    sh 'apk update && apk add make'
                 }
                 // Copy the secret files
                 withCredentials([
