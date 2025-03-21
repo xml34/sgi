@@ -47,7 +47,7 @@ def get_url():
             return "postgresql://test-sgi:password@test-postgres:5432/test-sgi"
         case "LOCAL":
             return "postgresql://sgi:password@localhost:5432/sgi"
-        case default:
+        case _:
             return config.get_main_option("sqlalchemy.url")
 
 

@@ -1,10 +1,7 @@
 import pytest
-from src.models.product import Product
-# from sqlalchemy.ext.asyncio import AsyncSession
-# from my_project.database import get_async_session
-# from my_project.models import User  # Example model
-from src.services.pg_connection import get_db_session
-from sqlalchemy import delete
+# from src.models.product import Product
+# from src.services.pg_connection import get_db_session
+# from sqlalchemy import delete
 from fastapi.testclient import TestClient
 from src.main import app
 from unittest import TestCase
@@ -66,4 +63,3 @@ def tester():
 #             session.execute(stmt)
 #             session.commit()
 #
-

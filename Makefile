@@ -48,9 +48,19 @@ test:
 	# raises test DB
 	docker-compose up -d test-postgres
 	until docker-compose exec -T test-postgres pg_isready -d sgi -U sgi; do sleep 1; done
+	docker-compose up -d app
 	# raises app API
 	DATABASE_URL=${DB_TEST} ENVIRONMENT="TEST" docker-compose up -d app
 	# run migrations
 	docker-compose exec app alembic -c ${ALEMBIC_CONFIG} upgrade head
 	# run tests
-	docker-compose exec app poetry run pytest --junitxml=${TEST_REPORTS_DIR}/report.xml --html=${TEST_REPORTS_DIR}/report.html
+	docker-compose exec app poetry run pytest #--junitxml=${TEST_REPORTS_DIR}/report.xml --html=${TEST_REPORTS_DIR}/report.html
+	make down_api
+
+.PHONY: linter
+linter:
+	make down_api
+	docker-compose up -d app
+	# docker-compose up -d test-postgres
+	docker-compose exec app poetry run pre-commit run --all-files
+	make down_api

@@ -25,9 +25,9 @@ def init_product_router():
     @router.get(
         path="/get",
         description="Returns a single product",
-        name="Get Product"
+        name="Get Product By Name"
     )
-    async def get_product(
+    async def get_product_by_name(
             name: str,
             service: ProductService = Depends()
     ):
