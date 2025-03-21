@@ -19,7 +19,7 @@ def init_product_router():
         product_id: int,
         service: ProductService = Depends()
     ):
-        product = await service.get(product_id)
+        product: Product = await service.get(product_id)
         return product
 
     @router.get(

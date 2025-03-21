@@ -49,7 +49,10 @@ And yes, that's it. 😉👍🏻
 
 
 # How To Run Tests
-1) you need to place the env export ENVIRONMENT=TEST
+1) you need to place the env 
+    ```
+    export ENVIRONMENT=TEST
+    ```
 2) Replace the following files
    * **sgi/secrets/pg.ini**: represents postgres connection
    * **sgi/alembic.ini**: represents the connection to de DB but for migrations

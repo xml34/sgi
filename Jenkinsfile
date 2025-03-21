@@ -45,13 +45,31 @@ pipeline {
                 sh 'docker-compose build'
             }
         }
-
+        /*
         stage('Test') {
             steps {
                 echo 'Testing..        -   -   -   -   -   -   -   -   -   -   -'
                 sh '''
                     make test
                 '''
+            }
+        }
+        */
+
+        stage('Run Test') {
+            parallel {
+                stage('Unit Test') {
+                    steps {
+                        echo 'Unit Testing..   -   -   -   -   -   -   -   -   -   -   -'
+                        sh 'docker-compose run --rm web make test'
+                    }
+                }
+                stage('Integration Test') {
+                    steps {
+                        echo 'Integration Testing..   -   -   -   -   -   -   -   -   -   -   -'
+                        sh 'docker-compose run --rm web make integration-test'
+                    }
+                }
             }
         }
         stage('Deploy') {

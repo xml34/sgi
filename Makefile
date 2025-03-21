@@ -3,7 +3,8 @@ DB_TEST="postgresql+asyncpg://test-sgi:password@test-postgres:5432/test-sgi"
 DB_DEV="postgresql+asyncpg://sgi:password@postgres:5432/sgi"
 ALEMBIC_CONFIG="/app/secrets/alembic.ini"
 
-TEST_REPORTS_DIR=tests/integration/reports
+INTEGRATION_TEST_REPORTS_DIR="tests/integration/reports"
+UNIT_TEST_REPORTS_DIR="tests/unit/reports"
 
 
 .PHONY: build_no_cache
@@ -42,8 +43,8 @@ jenkins:
 	docker-compose up -d my-jenkins jenkins-docker
 
 
-.PHONY: test
-test:
+.PHONY: integration_test
+integration_test:
 	make down_api
 	# raises test DB
 	docker-compose up -d test-postgres
@@ -54,8 +55,18 @@ test:
 	# run migrations
 	docker-compose exec app alembic -c ${ALEMBIC_CONFIG} upgrade head
 	# run tests
-	docker-compose exec app poetry run pytest --junitxml=${TEST_REPORTS_DIR}/report.xml --html=${TEST_REPORTS_DIR}/report.html
+	docker-compose exec app poetry run pytest tests/integration --junitxml=${INTEGRATION_TEST_REPORTS_DIR}/report.xml --html=${INTEGRATION_TEST_REPORTS_DIR}/report.html
 	make down_api
+
+
+.PHONY: unit_test
+unit_test:
+	make down_api
+	docker-compose up -d app
+	# docker-compose up -d test-postgres
+	docker-compose exec app poetry run pytest tests/unit --junitxml=${UNIT_TEST_REPORTS_DIR}/report.xml --html=${UNIT_TEST_REPORTS_DIR}/report.html
+	make down_api
+
 
 .PHONY: linter
 linter:
