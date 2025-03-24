@@ -50,8 +50,9 @@ pipeline {
         stage('Unit Test') {
             steps {
                 echo 'Unit Testing..   -   -   -   -   -   -   -   -   -   -   -'
-                sh 'make unit_test'
                 sh 'mkdir -p tests/unit/reports'
+                sh 'make unit_test'
+
             }
             post {
                 always {
@@ -63,8 +64,8 @@ pipeline {
         stage('Integration Test') {
             steps {
                 echo 'Integration Testing..   -   -   -   -   -   -   -   -   - '
-                sh 'make integration_test'
                 sh 'mkdir -p tests/integration/reports'
+                sh 'make integration_test'
             }
             post {
                 always {
