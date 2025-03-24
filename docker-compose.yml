@@ -83,6 +83,7 @@ services:
     volumes:
       - ./src:/app/src
       - ./tests/integration/reports:/app/tests/integration/reports
+      - ./tests/unit/reports:/app/tests/unit/reports
     ports:
       - "8000:8000"
     healthcheck:
