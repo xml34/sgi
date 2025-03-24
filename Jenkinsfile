@@ -41,7 +41,6 @@ pipeline {
             }
         }
 
-
         stage('Lint Test') {
             steps {
                 echo 'Lint Testing..   -   -   -   -   -   -   -   -   -   -   -'
@@ -52,6 +51,7 @@ pipeline {
             steps {
                 echo 'Unit Testing..   -   -   -   -   -   -   -   -   -   -   -'
                 sh 'make unit_test'
+                sh 'mkdir -p tests/unit/reports'
             }
             post {
                 always {
@@ -64,6 +64,7 @@ pipeline {
             steps {
                 echo 'Integration Testing..   -   -   -   -   -   -   -   -   - '
                 sh 'make integration_test'
+                sh 'mkdir -p tests/integration/reports'
             }
             post {
                 always {
