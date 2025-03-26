@@ -18,9 +18,6 @@ pipeline {
                     // Ensure the secrets directory exists
                     sh 'rm -f $SECRETS_DIR/pg.ini'
                     sh 'rm -f $SECRETS_DIR/alembic.ini'
-                    //sh 'mkdir -p $SECRETS_DIR'
-                    sh "sed -i 's/dl-cdn.alpinelinux.org/mirrors.dotsrc.org/' /etc/apk/repositories"
-                    sh 'apk update && apk add make'
                 }
                 // Copy the secret files
                 withCredentials([
