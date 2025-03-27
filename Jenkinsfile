@@ -84,7 +84,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('After Deploy') {
             steps {
                 echo 'Deploying..      -   -   -   -   -   -   -   -   -   -   -'
             }
