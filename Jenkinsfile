@@ -40,27 +40,31 @@ pipeline {
                 sh 'docker-compose build'
             }
         }
+        stage('Parallel Execution') {
+            parallel {
+                stage('Lint Test') {
+                    steps {
+                        echo 'Lint Testing..   -   -   -   -   -   -   -   -   -   -   -'
+                        sh 'make linter'
+                    }
+                }
+                stage('Unit Test') {
+                    steps {
+                        echo 'Unit Testing..   -   -   -   -   -   -   -   -   -   -   -'
+                        sh 'mkdir -p tests/unit/reports'
+                        sh 'make unit_test'
 
-        stage('Lint Test') {
-            steps {
-                echo 'Lint Testing..   -   -   -   -   -   -   -   -   -   -   -'
-                sh 'make linter'
-            }
-        }
-        stage('Unit Test') {
-            steps {
-                echo 'Unit Testing..   -   -   -   -   -   -   -   -   -   -   -'
-                sh 'mkdir -p tests/unit/reports'
-                sh 'make unit_test'
-
-            }
-            post {
-                always {
-                    junit 'tests/unit/reports/report.xml'
-                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'tests/unit/reports', reportFiles: 'report.html', reportName: 'SGI Unit Report', reportTitles: '', useWrapperFileDirectly: true])
+                    }
+                    post {
+                        always {
+                            junit 'tests/unit/reports/report.xml'
+                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, icon: '', keepAll: false, reportDir: 'tests/unit/reports', reportFiles: 'report.html', reportName: 'SGI Unit Report', reportTitles: '', useWrapperFileDirectly: true])
+                        }
+                    }
                 }
             }
         }
+
         stage('Integration Test') {
             steps {
                 echo 'Integration Testing..   -   -   -   -   -   -   -   -   - '
@@ -74,6 +78,12 @@ pipeline {
                 }
             }
         }
+        stage('Deploy') {
+            steps {
+                echo 'Deploying..      -   -   -   -   -   -   -   -   -   -   -'
+            }
+        }
+
         stage('Deploy') {
             steps {
                 echo 'Deploying..      -   -   -   -   -   -   -   -   -   -   -'
