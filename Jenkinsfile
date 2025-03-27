@@ -79,15 +79,27 @@ pipeline {
                 }
             }
         }
-        stage('Deploy') {
+        stage('Deploy Staging') {
             steps {
-                echo 'Deploying..      -   -   -   -   -   -   -   -   -   -   -'
+                echo 'Deploying to staging..      -   -   -   -   -   -   -   -   -   -   -'
             }
         }
 
-        stage('After Deploy') {
+        stage('Staging E2E test') {
             steps {
-                echo 'Deploying..      -   -   -   -   -   -   -   -   -   -   -'
+                echo 'Deploying to staging..      -   -   -   -   -   -   -   -   -   -   -'
+            }
+        }
+
+        stage('Approve Production') {
+            steps {
+                input 'Approve deployment to production?'
+            }
+        }
+
+        stage('Deploy Production') {
+            steps {
+                echo 'Deploying to production..      -   -   -   -   -   -   -   -   -   -   -'
             }
         }
     }
