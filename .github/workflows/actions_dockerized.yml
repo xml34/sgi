@@ -1,0 +1,20 @@
+name: Github Actions Test
+
+on:
+  push:
+    branches:
+      - qa
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # with `make` pre-installed
+
+    steps:
+      - name: Get the code
+        uses: actions/checkout@v3
+
+      - name: Run make build
+        run: make build
+
+      - name: Run make test
+        run: make test
